@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}Payment - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.payment-wrapper {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+
+/* Header */
+
+.payment-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.payment-header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #171717;
+}
+
+.payment-header p {
+    margin-top: 8px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Payment Card */
+
+.payment-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* Amount */
+
+.amount-section {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.amount-label {
+    display: block;
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.amount-value {
+    display: block;
+    color: #2563eb;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+/* Razorpay Info */
+
+.payment-info {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.payment-info p {
+    color: #6b7280;
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+
+/* Pay Button */
+
+.pay-button {
+    width: 100%;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 13px;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pay-button:hover {
+    background: #1d4ed8;
+}
+
+
+/* Back */
+
+.payment-back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.payment-back:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .payment-wrapper {
+        margin: 25px auto;
+    }
+
+    .payment-card {
+        padding: 20px;
+    }
+
+    .payment-header h1 {
+        font-size: 24px;
+    }
+
+    .amount-value {
+        font-size: 26px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="payment-wrapper">
+
+    <div class="payment-header">
+
+        <h1>Payment</h1>
+
+        <p>
+            Complete your payment securely with Razorpay.
+        </p>
+
+    </div>
+
+
+    <div class="payment-card">
+
+        <!-- Amount -->
+
+        <div class="amount-section">
+
+            <span class="amount-label">
+                Amount to Pay
+            </span>
+
+            <span class="amount-value">
+                ₹{{ total }}
+            </span>
+
+        </div>
+
+
+        <!-- Payment Information -->
+
+        <div class="payment-info">
+
+            <p>
+                You will be redirected to Razorpay's secure
+                checkout.
+            </p>
+
+            <p>
+                Your payment details are processed securely.
+            </p>
+
+        </div>
+
+
+        <!-- Pay Button -->
+
+        <button
+            id="rzp-button"
+            class="pay-button"
+            type="button"
+        >
+            Pay with Razorpay
+        </button>
+
+    </div>
+
+
+    <!-- Back -->
+
+    <a
+        href="/user/address"
+        class="payment-back"
+    >
+        ← Back to Address
+    </a>
+
+</div>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+
+/* =========================================================
+   RAZORPAY CONFIGURATION
+========================================================= */
+
+var options = {
+
+    "key": "{{ razorpay_key_id }}",
+
+    /*
+       app.py already sends amount in paise.
+       Do NOT multiply this amount again.
+    */
+
+    "amount": "{{ amount }}",
+
+    "currency": "INR",
+
+    "name": "SmartCart",
+
+    "description": "SmartCart Order Payment",
+
+    "order_id": "{{ razorpay_order_id }}",
+
+
+    /* =====================================================
+       PAYMENT SUCCESS
+    ===================================================== */
+
+    "handler": function (response) {
+
+        console.log(
+            "Razorpay payment successful"
+        );
+
+        console.log(response);
+
+
+        /* Send payment details to Flask */
+
+        fetch("/user/payment-success", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                razorpay_payment_id:
+                    response.razorpay_payment_id,
+
+                razorpay_order_id:
+                    response.razorpay_order_id,
+
+                razorpay_signature:
+                    response.razorpay_signature
+
+            })
+
+        })
+
+
+        .then(function(res) {
+
+            return res.json();
+
+        })
+
+
+        .then(function(data) {
+
+            console.log(
+                "Server response:",
+                data
+            );
+
+
+            if (data.success) {
+
+                /* Go to Order Success */
+
+                window.location.href =
+                    "/user/order-success/"
+                    + data.order_id;
+
+            }
+
+            else {
+
+                alert(
+                    "Payment verification failed: "
+                    + (
+                        data.error ||
+                        "Unknown error"
+                    )
+                );
+
+            }
+
+        })
+
+
+        .catch(function(error) {
+
+            console.error(
+                "Payment verification error:",
+                error
+            );
+
+
+            alert(
+                "Something went wrong while verifying payment."
+            );
+
+        });
+
+    },
+
+
+    /* =====================================================
+       CUSTOMER DETAILS
+    ===================================================== */
+
+    "prefill": {
+
+        "name":
+            "{{ user_name }}",
+
+        "email":
+            "{{ user_email }}",
+
+        "contact":
+            "{{ user_mobile }}"
+
+    },
+
+
+    /* =====================================================
+       RAZORPAY THEME
+    ===================================================== */
+
+    "theme": {
+
+        "color": "#2563eb"
+
+    }
+
+};
+
+
+/* =========================================================
+   CREATE RAZORPAY OBJECT
+========================================================= */
+
+var rzp =
+    new Razorpay(options);
+
+
+/* =========================================================
+   PAY BUTTON
+========================================================= */
+
+document
+    .getElementById("rzp-button")
+    .onclick = function(e) {
+
+        e.preventDefault();
+
+        console.log(
+            "Pay button clicked"
+        );
+
+        rzp.open();
+
+    };
+
+</script>
+
+{% endblock %}

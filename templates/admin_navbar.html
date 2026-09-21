@@ -1,0 +1,154 @@
+<!-- Admin Navbar -->
+<nav class="admin-navbar">
+
+    <div class="admin-nav-container">
+
+        <!-- Logo -->
+        <a href="/admin-dashboard" class="admin-logo">
+            SmartCart
+            <span>Admin</span>
+        </a>
+
+        <!-- Navigation Links -->
+        <div class="admin-nav-links">
+
+            <a href="/admin-dashboard">
+                Dashboard
+            </a>
+
+            <a href="/admin/add-item">
+                Add Product
+            </a>
+
+            <a href="/admin/item-list">
+                Products
+            </a>
+
+
+            <a href="/admin/profile">
+                Profile
+            </a>
+
+            <a href="/admin-logout" class="admin-logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<style>
+    .admin-navbar {
+        width: 100%;
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .admin-nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+        min-height: 68px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    /* Logo */
+    .admin-logo {
+        text-decoration: none;
+        color: #2563eb;
+        font-size: 22px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .admin-logo span {
+        margin-left: 6px;
+        padding: 4px 8px;
+        border-radius: 5px;
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 11px;
+        font-weight: 600;
+        vertical-align: middle;
+    }
+
+    /* Navigation Links */
+    .admin-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .admin-nav-links a {
+        text-decoration: none;
+        color: #374151;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 9px 12px;
+        border-radius: 6px;
+        transition: 0.2s ease;
+    }
+
+    .admin-nav-links a:hover {
+        color: #2563eb;
+        background: #eff6ff;
+    }
+
+    /* Logout */
+    .admin-nav-links .admin-logout {
+        color: #dc2626;
+    }
+
+    .admin-nav-links .admin-logout:hover {
+        color: #b91c1c;
+        background: #fef2f2;
+    }
+
+    /* Tablet */
+    @media (max-width: 900px) {
+        .admin-nav-container {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 20px;
+            gap: 12px;
+        }
+
+        .admin-nav-links {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+        .admin-nav-container {
+            padding: 14px 16px;
+        }
+
+        .admin-nav-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            width: 100%;
+            gap: 5px;
+        }
+
+        .admin-nav-links a {
+            text-align: center;
+            font-size: 13px;
+            padding: 9px 6px;
+        }
+
+        .admin-logo {
+            font-size: 20px;
+        }
+    }
+</style>

@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.orders-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+
+/* Header */
+
+.orders-header {
+    margin-bottom: 25px;
+}
+
+.orders-header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #171717;
+}
+
+.orders-header p {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Order Card */
+
+.order-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* Order Top */
+
+.order-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.order-top h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #171717;
+}
+
+
+/* Status */
+
+.order-status {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+
+/* Order Details */
+
+.order-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 30px;
+    padding: 20px 0;
+}
+
+.order-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.detail-value {
+    color: #171717;
+    font-size: 14px;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.amount {
+    color: #2563eb;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* Actions */
+
+.order-actions {
+    display: flex;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.order-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.view-btn {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.view-btn:hover {
+    background: #1d4ed8;
+}
+
+.invoice-btn {
+    background: #ffffff;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+}
+
+.invoice-btn:hover {
+    background: #eff6ff;
+}
+
+
+/* Empty Orders */
+
+.empty-orders {
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 55px 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.empty-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.empty-orders h2 {
+    margin: 0 0 8px;
+    color: #171717;
+    font-size: 22px;
+}
+
+.empty-orders p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.shopping-btn {
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 11px 20px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.shopping-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* Mobile */
+
+@media (max-width: 650px) {
+
+    .orders-wrapper {
+        margin: 20px auto;
+    }
+
+    .orders-header h1 {
+        font-size: 24px;
+    }
+
+    .order-card {
+        padding: 18px;
+    }
+
+    .order-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .order-details {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .order-actions {
+        flex-direction: column;
+    }
+
+    .order-btn {
+        text-align: center;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="orders-wrapper">
+
+
+    <!-- Header -->
+
+    <div class="orders-header">
+
+        <h1>
+            My Orders
+        </h1>
+
+        <p>
+            View your previous orders and payment details.
+        </p>
+
+    </div>
+
+
+    {% if orders %}
+
+
+        {% for order in orders %}
+
+
+        <!-- Order Card -->
+
+        <div class="order-card">
+
+
+            <!-- Order Header -->
+
+            <div class="order-top">
+
+                <h3>
+                    Order #{{ order.order_id }}
+                </h3>
+
+                <span class="order-status">
+                    {{ order.payment_status }}
+                </span>
+
+            </div>
+
+
+            <!-- Order Details -->
+
+            <div class="order-details">
+
+
+                <!-- Amount -->
+
+                <div class="order-detail">
+
+                    <span class="detail-label">
+                        Amount
+                    </span>
+
+                    <span class="detail-value amount">
+                        ₹{{ order.amount }}
+                    </span>
+
+                </div>
+
+
+                <!-- Payment Status -->
+
+                <div class="order-detail">
+
+                    <span class="detail-label">
+                        Payment Status
+                    </span>
+
+                    <span class="detail-value">
+                        {{ order.payment_status }}
+                    </span>
+
+                </div>
+
+
+                <!-- Payment ID -->
+
+                <div class="order-detail">
+
+                    <span class="detail-label">
+                        Payment ID
+                    </span>
+
+                    <span class="detail-value">
+                        {{ order.razorpay_payment_id }}
+                    </span>
+
+                </div>
+
+
+                <!-- Date -->
+
+                <div class="order-detail">
+
+                    <span class="detail-label">
+                        Order Date
+                    </span>
+
+                    <span class="detail-value">
+                        {{ order.created_at }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- Actions -->
+
+            <div class="order-actions">
+
+
+                <a
+                    href="/user/order-success/{{ order.order_id }}"
+                    class="order-btn view-btn"
+                >
+                    View Order Details
+                </a>
+
+
+                <a
+                    href="/user/download-invoice/{{ order.order_id }}"
+                    class="order-btn invoice-btn"
+                >
+                    Download Invoice
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- Empty Orders -->
+
+        <div class="empty-orders">
+
+            <div class="empty-icon">
+                📦
+            </div>
+
+            <h2>
+                No Orders Yet
+            </h2>
+
+            <p>
+                You haven't placed any orders yet.
+            </p>
+
+            <a
+                href="/user/products"
+                class="shopping-btn"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+{% endblock %}

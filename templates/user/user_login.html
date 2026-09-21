@@ -1,0 +1,422 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Login | SmartCart
+{% endblock %}
+
+
+{% block content %}
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <!-- Header -->
+
+        <div class="login-header">
+
+            <div class="login-logo">
+                Smart<span>Cart</span>
+            </div>
+
+            <h1>
+                Welcome back
+            </h1>
+
+            <p>
+                Login to continue shopping with SmartCart.
+            </p>
+
+        </div>
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="login-alert">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- Login Form -->
+
+        <form
+            method="POST"
+            action="/user-login"
+        >
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email address"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Login Button -->
+
+            <button
+                type="submit"
+                class="btn login-btn"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- Register -->
+
+        <div class="register-link">
+
+            <span>
+                Don't have an account?
+            </span>
+
+            <a href="/user-register">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       LOGIN PAGE
+    ===================================================== */
+
+    .login-page {
+
+        min-height: 72vh;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 30px 0;
+
+    }
+
+
+    /* =====================================================
+       LOGIN CARD
+    ===================================================== */
+
+    .login-card {
+
+        width: 100%;
+
+        max-width: 440px;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 12px;
+
+        padding: 34px;
+
+        box-shadow:
+            0 4px 18px rgba(0, 0, 0, 0.04);
+
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .login-header {
+
+        text-align: center;
+
+        margin-bottom: 28px;
+
+    }
+
+
+    .login-logo {
+
+        font-size: 21px;
+
+        font-weight: 700;
+
+        color: #222;
+
+        margin-bottom: 22px;
+
+        letter-spacing: -0.4px;
+
+    }
+
+
+    .login-logo span {
+
+        color: #2563eb;
+
+    }
+
+
+    .login-header h1 {
+
+        font-size: 25px;
+
+        font-weight: 650;
+
+        color: #171717;
+
+        margin-bottom: 6px;
+
+    }
+
+
+    .login-header p {
+
+        font-size: 14px;
+
+        color: #6b7280;
+
+    }
+
+
+    /* =====================================================
+       FLASH MESSAGE
+    ===================================================== */
+
+    .login-alert {
+
+        background: #fef2f2;
+
+        color: #991b1b;
+
+        border: 1px solid #fecaca;
+
+        border-radius: 7px;
+
+        padding: 10px 12px;
+
+        margin-bottom: 18px;
+
+        font-size: 14px;
+
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .login-card .form-group {
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .login-card .form-group label {
+
+        display: block;
+
+        margin-bottom: 6px;
+
+        font-size: 14px;
+
+        font-weight: 500;
+
+        color: #374151;
+
+    }
+
+
+    .login-card .form-control {
+
+        width: 100%;
+
+        padding: 11px 12px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #222;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+
+    }
+
+
+    .login-card .form-control::placeholder {
+
+        color: #9ca3af;
+
+    }
+
+
+    .login-card .form-control:focus {
+
+        border-color: #2563eb;
+
+        box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.08);
+
+    }
+
+
+    /* =====================================================
+       LOGIN BUTTON
+    ===================================================== */
+
+    .login-btn {
+
+        width: 100%;
+
+        margin-top: 4px;
+
+        padding: 11px 16px;
+
+    }
+
+
+    /* =====================================================
+       REGISTER LINK
+    ===================================================== */
+
+    .register-link {
+
+        text-align: center;
+
+        margin-top: 24px;
+
+        padding-top: 20px;
+
+        border-top: 1px solid #f0f0f0;
+
+        font-size: 14px;
+
+    }
+
+
+    .register-link span {
+
+        color: #6b7280;
+
+    }
+
+
+    .register-link a {
+
+        color: #2563eb;
+
+        font-weight: 500;
+
+        margin-left: 4px;
+
+    }
+
+
+    .register-link a:hover {
+
+        text-decoration: underline;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 480px) {
+
+        .login-page {
+
+            min-height: auto;
+
+            padding: 20px 0;
+
+        }
+
+
+        .login-card {
+
+            padding: 25px 20px;
+
+            border-radius: 10px;
+
+        }
+
+
+        .login-header h1 {
+
+            font-size: 23px;
+
+        }
+
+    }
+
+</style>
+
+{% endblock %}

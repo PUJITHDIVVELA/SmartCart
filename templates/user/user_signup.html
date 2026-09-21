@@ -1,0 +1,422 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create Account | SmartCart
+{% endblock %}
+
+
+{% block content %}
+
+<div class="signup-page">
+
+    <div class="signup-card">
+
+        <!-- Header -->
+
+        <div class="signup-header">
+
+            <div class="signup-logo">
+                Smart<span>Cart</span>
+            </div>
+
+            <h1>
+                Create your account
+            </h1>
+
+            <p>
+                Join SmartCart and start shopping.
+            </p>
+
+        </div>
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="signup-alert">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- Registration Form -->
+
+        <form
+            method="POST"
+            action="/user-register"
+        >
+
+            <!-- Name -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    placeholder="Enter your name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email address"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Register Button -->
+
+            <button
+                type="submit"
+                class="btn register-btn"
+            >
+                Register
+            </button>
+
+        </form>
+
+
+        <!-- Login -->
+
+        <div class="login-link">
+
+            <span>
+                Already have an account?
+            </span>
+
+            <a href="/user-login">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       SIGNUP PAGE
+    ===================================================== */
+
+    .signup-page {
+
+        min-height: 72vh;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 30px 0;
+
+    }
+
+
+    /* =====================================================
+       SIGNUP CARD
+    ===================================================== */
+
+    .signup-card {
+
+        width: 100%;
+
+        max-width: 440px;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 12px;
+
+        padding: 34px;
+
+        box-shadow:
+            0 4px 18px rgba(0, 0, 0, 0.04);
+
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .signup-header {
+
+        text-align: center;
+
+        margin-bottom: 28px;
+
+    }
+
+
+    .signup-logo {
+
+        font-size: 21px;
+
+        font-weight: 700;
+
+        color: #222;
+
+        margin-bottom: 22px;
+
+        letter-spacing: -0.4px;
+
+    }
+
+
+    .signup-logo span {
+
+        color: #2563eb;
+
+    }
+
+
+    .signup-header h1 {
+
+        font-size: 25px;
+
+        font-weight: 650;
+
+        color: #171717;
+
+        margin-bottom: 6px;
+
+    }
+
+
+    .signup-header p {
+
+        font-size: 14px;
+
+        color: #6b7280;
+
+    }
+
+
+    /* =====================================================
+       FLASH MESSAGE
+    ===================================================== */
+
+    .signup-alert {
+
+        background: #fef2f2;
+
+        color: #991b1b;
+
+        border: 1px solid #fecaca;
+
+        border-radius: 7px;
+
+        padding: 10px 12px;
+
+        margin-bottom: 18px;
+
+        font-size: 14px;
+
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .signup-card .form-group {
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .signup-card .form-group label {
+
+        display: block;
+
+        margin-bottom: 6px;
+
+        font-size: 14px;
+
+        font-weight: 500;
+
+        color: #374151;
+
+    }
+
+
+    .signup-card .form-control {
+
+        width: 100%;
+
+        padding: 11px 12px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #222;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+
+    }
+
+
+    .signup-card .form-control::placeholder {
+
+        color: #9ca3af;
+
+    }
+
+
+    .signup-card .form-control:focus {
+
+        border-color: #2563eb;
+
+        box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.08);
+
+    }
+
+
+    /* =====================================================
+       REGISTER BUTTON
+    ===================================================== */
+
+    .register-btn {
+
+        width: 100%;
+
+        margin-top: 4px;
+
+        padding: 11px 16px;
+
+    }
+
+
+    /* =====================================================
+       LOGIN LINK
+    ===================================================== */
+
+    .login-link {
+
+        text-align: center;
+
+        margin-top: 24px;
+
+        padding-top: 20px;
+
+        border-top: 1px solid #f0f0f0;
+
+        font-size: 14px;
+
+    }
+
+
+    .login-link span {
+
+        color: #6b7280;
+
+    }
+
+
+    .login-link a {
+
+        color: #2563eb;
+
+        font-weight: 500;
+
+        margin-left: 4px;
+
+    }
+
+
+    .login-link a:hover {
+
+        text-decoration: underline;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 480px) {
+
+        .signup-page {
+
+            min-height: auto;
+
+            padding: 20px 0;
+
+        }
+
+
+        .signup-card {
+
+            padding: 25px 20px;
+
+            border-radius: 10px;
+
+        }
+
+
+        .signup-header h1 {
+
+            font-size: 23px;
+
+        }
+
+    }
+
+</style>
+
+{% endblock %}

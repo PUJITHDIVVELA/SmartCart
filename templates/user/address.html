@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% block title %}Delivery Address - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.address-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+
+/* Header */
+
+.address-header {
+    margin-bottom: 25px;
+}
+
+.address-header h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #171717;
+}
+
+.address-header p {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Address Card */
+
+.address-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* Form */
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 7px;
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #171717;
+    background: #ffffff;
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+
+/* Two-column fields */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+
+/* Continue Button */
+
+.continue-btn {
+    width: 100%;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: 0.2s;
+}
+
+.continue-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* Back Link */
+
+.back-cart {
+    display: inline-block;
+    margin-top: 20px;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-cart:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .address-wrapper {
+        margin: 20px auto;
+    }
+
+    .address-card {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .address-header h2 {
+        font-size: 24px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="address-wrapper">
+
+    <div class="address-header">
+
+        <h2>Delivery Address</h2>
+
+        <p>
+            Please enter your delivery details to continue.
+        </p>
+
+    </div>
+
+
+    <div class="address-card">
+
+        <form
+            method="POST"
+            action="/user/address/continue"
+            class="address-form"
+        >
+
+
+            <!-- Full Name -->
+
+            <div class="form-group">
+
+                <label for="full_name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Mobile -->
+
+            <div class="form-group">
+
+                <label for="mobile">
+                    Mobile Number
+                </label>
+
+                <input
+                    type="text"
+                    id="mobile"
+                    name="mobile"
+                    placeholder="Enter your mobile number"
+                    required
+                >
+
+            </div>
+
+
+            <!-- House + Area -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="house_number">
+                        House Number / Flat Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="house_number"
+                        name="house_number"
+                        placeholder="e.g. Flat 204"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="area">
+                        Street / Area
+                    </label>
+
+                    <input
+                        type="text"
+                        id="area"
+                        name="area"
+                        placeholder="Enter street or area"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Landmark -->
+
+            <div class="form-group">
+
+                <label for="landmark">
+                    Landmark
+                    <span style="font-weight: 400; color: #9ca3af;">
+                        (Optional)
+                    </span>
+                </label>
+
+                <input
+                    type="text"
+                    id="landmark"
+                    name="landmark"
+                    placeholder="Nearby landmark"
+                >
+
+            </div>
+
+
+            <!-- City + State -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="city">
+                        City
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        placeholder="Enter city"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="state">
+                        State
+                    </label>
+
+                    <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        placeholder="Enter state"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Pincode -->
+
+            <div class="form-group">
+
+                <label for="pincode">
+                    Pincode
+                </label>
+
+                <input
+                    type="text"
+                    id="pincode"
+                    name="pincode"
+                    placeholder="Enter 6-digit pincode"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Continue -->
+
+            <button
+                type="submit"
+                class="continue-btn"
+            >
+                Continue to Payment
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+    <a
+        href="/user/cart"
+        class="back-cart"
+    >
+        ← Back to Cart
+    </a>
+
+</div>
+
+{% endblock %}

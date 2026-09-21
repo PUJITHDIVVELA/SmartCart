@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Dashboard | SmartCart
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>
+        Welcome, {{ session.get('user_name', 'User') }}
+    </h1>
+
+    <p>
+        Manage your shopping, orders and account from here.
+    </p>
+
+</div>
+
+
+<div class="grid grid-3">
+
+
+    <div class="card">
+
+        <h3>
+            Products
+        </h3>
+
+        <p>
+            Browse the latest products available on SmartCart.
+        </p>
+
+        <br>
+
+        <a
+            href="/user/products"
+            class="btn"
+        >
+            View Products
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            My Cart
+        </h3>
+
+        <p>
+            You currently have
+            <strong>{{ cart_count }}</strong>
+            item(s) in your cart.
+        </p>
+
+        <br>
+
+        <a
+            href="/user/cart"
+            class="btn btn-secondary"
+        >
+            View Cart
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            My Orders
+        </h3>
+
+        <p>
+            View your previous orders and download invoices.
+        </p>
+
+        <br>
+
+        <a
+            href="/user/my-orders"
+            class="btn btn-secondary"
+        >
+            View Orders
+        </a>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

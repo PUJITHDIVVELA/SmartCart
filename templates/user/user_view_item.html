@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block title %}Product Details - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.product-details-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.product-details-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 35px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.product-details {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 45px;
+    align-items: center;
+}
+
+/* Product Image */
+
+.product-image-section {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 380px;
+}
+
+.product-image-section img {
+    width: 100%;
+    max-width: 350px;
+    height: 350px;
+    object-fit: contain;
+}
+
+/* Product Information */
+
+.product-info h1 {
+    font-size: 30px;
+    color: #171717;
+    margin-bottom: 12px;
+}
+
+.product-category {
+    display: inline-block;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.product-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 20px 0 25px;
+}
+
+.product-info-row {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 15px;
+}
+
+.product-info-label {
+    width: 130px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.product-info-value {
+    color: #171717;
+    font-weight: 500;
+}
+
+/* Buttons */
+
+.product-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.product-actions button {
+    border: none;
+    border-radius: 7px;
+    padding: 11px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.add-cart-btn {
+    background: #ffffff;
+    color: #2563eb;
+    border: 1px solid #2563eb !important;
+}
+
+.add-cart-btn:hover {
+    background: #eff6ff;
+}
+
+.buy-now-btn {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.buy-now-btn:hover {
+    background: #1d4ed8;
+}
+
+/* Back Links */
+
+.product-navigation {
+    margin-top: 25px;
+    display: flex;
+    gap: 20px;
+}
+
+.product-navigation a {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.product-navigation a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .product-details-wrapper {
+        margin: 20px auto;
+    }
+
+    .product-details-card {
+        padding: 20px;
+    }
+
+    .product-details {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .product-image-section {
+        min-height: 280px;
+    }
+
+    .product-image-section img {
+        height: 260px;
+    }
+
+    .product-info h1 {
+        font-size: 25px;
+    }
+
+    .product-price {
+        font-size: 24px;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .product-actions {
+        flex-direction: column;
+    }
+
+    .product-actions button {
+        width: 100%;
+    }
+
+    .product-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="product-details-wrapper">
+
+    <div class="product-details-card">
+
+        <div class="product-details">
+
+            <!-- Product Image -->
+
+            <div class="product-image-section">
+
+                <img
+                    src="/static/uploads/product_images/{{ product.image }}"
+                    alt="{{ product.name }}"
+                >
+
+            </div>
+
+
+            <!-- Product Information -->
+
+            <div class="product-info">
+
+                <h1>{{ product.name }}</h1>
+
+                <span class="product-category">
+                    {{ product.category }}
+                </span>
+
+
+                <div class="product-info-row">
+
+                    <div class="product-info-label">
+                        Product ID
+                    </div>
+
+                    <div class="product-info-value">
+                        {{ product.product_id }}
+                    </div>
+
+                </div>
+
+
+                <div class="product-info-row">
+
+                    <div class="product-info-label">
+                        Category
+                    </div>
+
+                    <div class="product-info-value">
+                        {{ product.category }}
+                    </div>
+
+                </div>
+
+
+                <div class="product-price">
+                    ₹{{ product.price }}
+                </div>
+
+
+                <!-- Actions -->
+
+                <div class="product-actions">
+
+                    <button
+                        type="button"
+                        class="add-cart-btn"
+                        data-product-id="{{ product.product_id }}"
+                    >
+                        Add to Cart
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="buy-now-btn"
+                        data-product-id="{{ product.product_id }}"
+                    >
+                        Buy Now
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <div class="product-navigation">
+
+            <a href="/user/products">
+                ← Back to Products
+            </a>
+
+            <a href="/user-dashboard">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* Add To Cart */
+
+const addCartButton = document.querySelector(".add-cart-btn");
+
+addCartButton.addEventListener("click", function () {
+
+    const productId =
+        addCartButton.getAttribute("data-product-id");
+
+    fetch("/user/add-to-cart-ajax/" + productId)
+
+        .then(function(response) {
+
+            if (response.status === 401) {
+
+                window.location.href = "/user-login";
+
+                return null;
+            }
+
+            return response.json();
+
+        })
+
+        .then(function(data) {
+
+            if (!data) {
+                return;
+            }
+
+            if (data.error) {
+
+                alert(data.error);
+
+                return;
+            }
+
+            alert("✔ " + data.message);
+
+        })
+
+        .catch(function(error) {
+
+            console.log("Error:", error);
+
+        });
+
+});
+
+
+/* Buy Now */
+
+const buyNowButton = document.querySelector(".buy-now-btn");
+
+buyNowButton.addEventListener("click", function () {
+
+    const productId =
+        buyNowButton.getAttribute("data-product-id");
+
+    window.location.href =
+        "/user/buy-now/" + productId;
+
+});
+
+</script>
+
+{% endblock %}

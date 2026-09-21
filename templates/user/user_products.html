@@ -1,0 +1,659 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Products | SmartCart
+{% endblock %}
+
+
+{% block content %}
+
+<!-- =====================================================
+     PAGE HEADER
+====================================================== -->
+
+<div class="page-header">
+
+    <h1>
+        All Products
+    </h1>
+
+    <p>
+        Browse our products and find what you need.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     FLASH MESSAGES
+====================================================== -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+<!-- =====================================================
+     SEARCH & FILTER
+====================================================== -->
+
+<div class="filter-card">
+
+    <form
+        method="GET"
+        action="/user/products"
+        class="filter-form"
+    >
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search products..."
+                value="{{ request.args.get('search', '') }}"
+            >
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Search
+            </button>
+
+        </div>
+
+
+        <div class="category-box">
+
+            <select
+                name="category"
+                class="form-control"
+            >
+
+                <option value="">
+                    All Categories
+                </option>
+
+
+                {% for cat in categories %}
+
+                    <option
+                        value="{{ cat.category }}"
+                        {% if request.args.get('category') == cat.category %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ cat.category }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="btn btn-secondary"
+            >
+                Filter
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- =====================================================
+     PRODUCTS
+====================================================== -->
+
+{% if products %}
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+    <div class="product-card">
+
+
+        <!-- Product Image -->
+
+        <div class="product-image">
+
+            <img
+                src="/static/uploads/product_images/{{ product.image }}"
+                alt="{{ product.name }}"
+            >
+
+        </div>
+
+
+        <!-- Product Information -->
+
+        <div class="product-info">
+
+            <div class="product-category">
+                {{ product.category }}
+            </div>
+
+
+            <h3>
+                {{ product.name }}
+            </h3>
+
+
+            <div class="product-price">
+                ₹{{ product.price }}
+            </div>
+
+
+            <!-- View Details -->
+
+            <a
+                href="/user/user-view-item/{{ product.product_id }}"
+                class="btn btn-secondary product-btn"
+            >
+                View Details
+            </a>
+
+
+            <!-- Add To Cart -->
+
+            <button
+                type="button"
+                class="btn product-btn add-cart-btn"
+                data-product-id="{{ product.product_id }}"
+            >
+                Add to Cart
+            </button>
+
+
+            <!-- Buy Now -->
+
+            <a
+                href="/user/buy-now/{{ product.product_id }}"
+                class="btn btn-buy product-btn"
+            >
+                Buy Now
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="empty-products">
+
+    <h3>
+        No products found
+    </h3>
+
+    <p>
+        Try changing your search or category filter.
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<!-- =====================================================
+     BACK TO DASHBOARD
+====================================================== -->
+
+<div class="back-section">
+
+    <a
+        href="/user-dashboard"
+        class="btn btn-secondary"
+    >
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     ADD TO CART JAVASCRIPT
+====================================================== -->
+
+<script>
+
+const addCartButtons =
+    document.querySelectorAll(".add-cart-btn");
+
+
+addCartButtons.forEach(function(button) {
+
+    button.addEventListener(
+        "click",
+        function() {
+
+            const productId =
+                button.getAttribute(
+                    "data-product-id"
+                );
+
+
+            fetch(
+                "/user/add-to-cart-ajax/" + productId
+            )
+
+            .then(function(response) {
+
+                if (response.status === 401) {
+
+                    window.location.href =
+                        "/user-login";
+
+                    return null;
+
+                }
+
+                return response.json();
+
+            })
+
+
+            .then(function(data) {
+
+                if (!data) {
+                    return;
+                }
+
+
+                if (data.error) {
+
+                    alert(data.error);
+
+                    return;
+
+                }
+
+
+                alert(
+                    "✔ " + data.message
+                );
+
+            })
+
+
+            .catch(function(error) {
+
+                console.log(
+                    "Error:",
+                    error
+                );
+
+            });
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =====================================================
+   FILTER CARD
+====================================================== */
+
+.filter-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    margin-bottom: 30px;
+
+}
+
+
+.filter-form {
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: center;
+
+}
+
+
+.search-box,
+.category-box {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex: 1;
+
+}
+
+
+.category-box {
+
+    max-width: 350px;
+
+}
+
+
+/* =====================================================
+   PRODUCT GRID
+====================================================== */
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+
+}
+
+
+/* =====================================================
+   PRODUCT CARD
+====================================================== */
+
+.product-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.product-card:hover {
+
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.05);
+
+}
+
+
+/* =====================================================
+   PRODUCT IMAGE
+====================================================== */
+
+.product-image {
+
+    height: 190px;
+
+    background: #f8fafc;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 18px;
+
+    border-bottom: 1px solid #f0f0f0;
+
+}
+
+
+.product-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* =====================================================
+   PRODUCT INFORMATION
+====================================================== */
+
+.product-info {
+
+    padding: 18px;
+
+}
+
+
+.product-category {
+
+    font-size: 12px;
+
+    color: #6b7280;
+
+    margin-bottom: 5px;
+
+}
+
+
+.product-info h3 {
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    color: #222;
+
+    margin-bottom: 8px;
+
+    min-height: 25px;
+
+}
+
+
+.product-price {
+
+    font-size: 18px;
+
+    font-weight: 650;
+
+    color: #171717;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* =====================================================
+   PRODUCT BUTTONS
+====================================================== */
+
+.product-btn {
+
+    width: 100%;
+
+    margin-bottom: 8px;
+
+}
+
+
+.btn-buy {
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+}
+
+
+.btn-buy:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+/* =====================================================
+   EMPTY PRODUCTS
+====================================================== */
+
+.empty-products {
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 50px 20px;
+
+    text-align: center;
+
+}
+
+
+.empty-products h3 {
+
+    font-size: 18px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.empty-products p {
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   BACK BUTTON
+====================================================== */
+
+.back-section {
+
+    margin-top: 30px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1000px) {
+
+    .product-grid {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .filter-form {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .search-box,
+    .category-box {
+
+        max-width: none;
+
+        width: 100%;
+
+    }
+
+
+    .product-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .product-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .search-box,
+    .category-box {
+
+        flex-direction: column;
+
+    }
+
+
+    .product-image {
+
+        height: 210px;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}

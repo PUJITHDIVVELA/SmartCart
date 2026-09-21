@@ -1,0 +1,374 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Add Product - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.add-product-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+
+/* Header */
+
+.add-product-header {
+    margin-bottom: 25px;
+}
+
+.add-product-header h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #171717;
+}
+
+.add-product-header p {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Card */
+
+.add-product-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* Flash Messages */
+
+.product-alert {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    border-radius: 7px;
+    padding: 11px 14px;
+    margin-bottom: 22px;
+    font-size: 13px;
+}
+
+
+/* Form */
+
+.product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #171717;
+    background: #ffffff;
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #9ca3af;
+}
+
+
+/* Description */
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+
+/* File Input */
+
+.file-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #ffffff;
+    font-size: 13px;
+}
+
+
+/* Help Text */
+
+.form-help {
+    margin-top: 6px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+/* Submit */
+
+.add-product-btn {
+    width: 100%;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: 0.2s;
+}
+
+.add-product-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* Back */
+
+.back-dashboard {
+    display: inline-block;
+    margin-top: 20px;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-dashboard:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .add-product-wrapper {
+        margin: 20px auto;
+    }
+
+    .add-product-card {
+        padding: 20px;
+    }
+
+    .add-product-header h2 {
+        font-size: 24px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="add-product-wrapper">
+
+
+    <!-- Header -->
+
+    <div class="add-product-header">
+
+        <h2>
+            Add New Product
+        </h2>
+
+        <p>
+            Add a new product to your SmartCart store.
+        </p>
+
+    </div>
+
+
+    <!-- Card -->
+
+    <div class="add-product-card">
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% for category, message in messages %}
+
+                <div class="product-alert">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- Form -->
+
+        <form
+            method="POST"
+            action="/admin/add-item"
+            enctype="multipart/form-data"
+            class="product-form"
+        >
+
+
+            <!-- Product Name -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter product name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Description -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter product description"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- Category -->
+
+            <div class="form-group">
+
+                <label for="category">
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    placeholder="e.g. Electronics"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Price -->
+
+            <div class="form-group">
+
+                <label for="price">
+                    Price
+                </label>
+
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    step="0.01"
+                    min="0"
+                    placeholder="Enter product price"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Image -->
+
+            <div class="form-group">
+
+                <label for="image">
+                    Product Image
+                </label>
+
+                <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    class="file-input"
+                    required
+                >
+
+                <span class="form-help">
+                    Upload a clear product image.
+                </span>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <button
+                type="submit"
+                class="add-product-btn"
+            >
+                Add Product
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+    <!-- Back -->
+
+    <a
+        href="/admin-dashboard"
+        class="back-dashboard"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,1040 @@
+{% extends "base.html" %}
+
+{% block title %}My Cart - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.cart-wrapper {
+    max-width: 1150px;
+    margin: 35px auto;
+}
+
+/* Page Header */
+
+.cart-header {
+    margin-bottom: 25px;
+}
+
+.cart-header h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #171717;
+}
+
+.cart-header p {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Main Cart Card */
+
+.cart-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+
+/* Flash Messages */
+
+.cart-message {
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    border-radius: 7px;
+}
+
+
+/* Cart Table */
+
+.cart-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+.cart-table th {
+    background: #f7f8fa;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-table td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #171717;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+
+/* Product Image */
+
+.cart-product-image {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+
+/* Product Name */
+
+.product-name {
+    font-weight: 600;
+    color: #171717;
+}
+
+
+/* Price */
+
+.product-price {
+    font-weight: 500;
+    color: #171717;
+}
+
+.item-total {
+    font-weight: 600;
+    color: #2563eb;
+}
+
+
+/* Checkbox */
+
+.product-checkbox,
+#select-all {
+    width: 17px;
+    height: 17px;
+    accent-color: #2563eb;
+    cursor: pointer;
+}
+
+
+/* Quantity */
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-control button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #2563eb;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.quantity-control button:hover {
+    background: #eff6ff;
+    border-color: #2563eb;
+}
+
+.quantity-value {
+    min-width: 22px;
+    text-align: center;
+    font-weight: 600;
+}
+
+
+/* Remove */
+
+.remove-btn {
+    color: #dc2626;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.remove-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* Cart Footer */
+
+.cart-footer {
+    padding: 22px;
+    background: #ffffff;
+}
+
+.select-all-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #374151;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+
+/* Total */
+
+.total-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+}
+
+.total-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #171717;
+}
+
+.total-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+
+/* Proceed Button */
+
+.proceed-btn {
+    margin-top: 18px;
+    width: 100%;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.proceed-btn:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.proceed-btn:disabled {
+    background: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
+
+/* Empty Cart */
+
+.empty-cart {
+    max-width: 550px;
+    margin: 60px auto;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 50px 30px;
+}
+
+.empty-cart-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.empty-cart h3 {
+    margin: 0 0 8px;
+    color: #171717;
+}
+
+.empty-cart p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.start-shopping-btn {
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 11px 20px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.start-shopping-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* Bottom Navigation */
+
+.cart-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+}
+
+.cart-navigation a {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.cart-navigation a:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .cart-wrapper {
+        margin: 20px auto;
+    }
+
+    .cart-header h2 {
+        font-size: 24px;
+    }
+
+    .cart-footer {
+        padding: 18px;
+    }
+
+    .total-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .cart-navigation {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="cart-wrapper">
+
+    <div class="cart-header">
+
+        <h2>My Cart</h2>
+
+        <p>
+            Review your selected products before checkout.
+        </p>
+
+    </div>
+
+
+    <!-- Flash Messages -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+            <div class="cart-message">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    {% if not cart %}
+
+        <!-- Empty Cart -->
+
+        <div class="empty-cart">
+
+            <div class="empty-cart-icon">
+                🛒
+            </div>
+
+            <h3>Your cart is empty</h3>
+
+            <p>
+                You haven't added any products to your cart yet.
+            </p>
+
+            <a
+                href="/user/products"
+                class="start-shopping-btn"
+            >
+                Start Shopping
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- Cart -->
+
+        <div class="cart-card">
+
+            <form
+                method="POST"
+                action="/user/address"
+            >
+
+
+                <div class="cart-table-wrapper">
+
+                    <table class="cart-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Select</th>
+
+                                <th>Image</th>
+
+                                <th>Product</th>
+
+                                <th>Price</th>
+
+                                <th>Quantity</th>
+
+                                <th>Total</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for pid, item in cart.items() %}
+
+                            <tr id="row-{{ pid }}">
+
+
+                                <!-- CHECKBOX -->
+
+                                <td>
+
+                                    <input
+                                        type="checkbox"
+                                        class="product-checkbox"
+                                        name="selected_products"
+                                        value="{{ pid }}"
+                                        data-id="{{ pid }}"
+                                        data-price="{{ item.price }}"
+                                    >
+
+                                </td>
+
+
+                                <!-- IMAGE -->
+
+                                <td>
+
+                                    <img
+                                        src="/static/uploads/product_images/{{ item.image }}"
+                                        class="cart-product-image"
+                                        alt="{{ item.name }}"
+                                    >
+
+                                </td>
+
+
+                                <!-- PRODUCT -->
+
+                                <td>
+
+                                    <span class="product-name">
+                                        {{ item.name }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- PRICE -->
+
+                                <td>
+
+                                    <span class="product-price">
+                                        ₹{{ item.price }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- QUANTITY -->
+
+                                <td>
+
+                                    <div class="quantity-control">
+
+                                        <button
+                                            type="button"
+                                            class="decrease-btn"
+                                            data-id="{{ pid }}"
+                                        >
+                                            −
+                                        </button>
+
+
+                                        <span
+                                            class="quantity-value"
+                                            id="quantity-{{ pid }}"
+                                        >
+                                            {{ item.quantity }}
+                                        </span>
+
+
+                                        <button
+                                            type="button"
+                                            class="increase-btn"
+                                            data-id="{{ pid }}"
+                                        >
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ITEM TOTAL -->
+
+                                <td>
+
+                                    <span class="item-total">
+
+                                        ₹<span id="item-total-{{ pid }}">
+                                            {{ item.price * item.quantity }}
+                                        </span>
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- REMOVE -->
+
+                                <td>
+
+                                    <a
+                                        href="/user/cart/remove/{{ pid }}"
+                                        class="remove-btn"
+                                    >
+                                        Remove
+                                    </a>
+
+                                </td>
+
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- Cart Footer -->
+
+                <div class="cart-footer">
+
+
+                    <!-- SELECT ALL -->
+
+                    <div class="select-all-container">
+
+                        <input
+                            type="checkbox"
+                            id="select-all"
+                        >
+
+                        <label for="select-all">
+                            Select All
+                        </label>
+
+                    </div>
+
+
+                    <!-- TOTAL -->
+
+                    <div class="total-section">
+
+                        <span class="total-label">
+                            Grand Total
+                        </span>
+
+                        <span class="total-amount">
+
+                            ₹<span id="selected-total">
+                                0.00
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- PROCEED -->
+
+                    <button
+                        type="submit"
+                        id="proceed-btn"
+                        class="proceed-btn"
+                        disabled
+                    >
+                        Proceed to Checkout
+                    </button>
+
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <div class="cart-navigation">
+
+            <a href="/user/products">
+                ← Continue Shopping
+            </a>
+
+            <a href="/user-dashboard">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const checkboxes =
+    document.querySelectorAll(".product-checkbox");
+
+
+const selectAll =
+    document.getElementById("select-all");
+
+
+const selectedTotal =
+    document.getElementById("selected-total");
+
+
+const proceedButton =
+    document.getElementById("proceed-btn");
+
+
+
+/* =========================================================
+   CALCULATE SELECTED TOTAL
+========================================================= */
+
+function calculateSelectedTotal() {
+
+    let total = 0;
+
+    let selectedCount = 0;
+
+
+    document
+        .querySelectorAll(".product-checkbox")
+        .forEach(function(checkbox) {
+
+            if (checkbox.checked) {
+
+                const pid =
+                    checkbox.getAttribute("data-id");
+
+
+                const itemTotalElement =
+                    document.getElementById(
+                        "item-total-" + pid
+                    );
+
+
+                if (itemTotalElement) {
+
+                    const itemTotal =
+                        parseFloat(
+                            itemTotalElement.innerText
+                        );
+
+
+                    total += itemTotal;
+
+                }
+
+
+                selectedCount++;
+
+            }
+
+        });
+
+
+    if (selectedTotal) {
+
+        selectedTotal.innerText =
+            total.toFixed(2);
+
+    }
+
+
+    if (proceedButton) {
+
+        proceedButton.disabled =
+            selectedCount === 0;
+
+    }
+
+
+    if (selectAll) {
+
+        const allCheckboxes =
+            document.querySelectorAll(
+                ".product-checkbox"
+            );
+
+
+        selectAll.checked =
+            allCheckboxes.length > 0 &&
+            selectedCount === allCheckboxes.length;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   INDIVIDUAL CHECKBOX
+========================================================= */
+
+document
+    .querySelectorAll(".product-checkbox")
+    .forEach(function(checkbox) {
+
+        checkbox.addEventListener(
+            "change",
+            calculateSelectedTotal
+        );
+
+    });
+
+
+
+/* =========================================================
+   SELECT ALL
+========================================================= */
+
+if (selectAll) {
+
+    selectAll.addEventListener(
+        "change",
+        function() {
+
+            document
+                .querySelectorAll(
+                    ".product-checkbox"
+                )
+                .forEach(function(checkbox) {
+
+                    checkbox.checked =
+                        selectAll.checked;
+
+                });
+
+
+            calculateSelectedTotal();
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   INCREASE QUANTITY
+========================================================= */
+
+document
+    .querySelectorAll(".increase-btn")
+    .forEach(function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                const pid =
+                    button.getAttribute("data-id");
+
+
+                fetch(
+                    "/user/cart/increase-ajax/" + pid
+                )
+
+                    .then(function(response) {
+
+                        if (response.status === 401) {
+
+                            window.location.href =
+                                "/user-login";
+
+                            return null;
+
+                        }
+
+                        return response.json();
+
+                    })
+
+
+                    .then(function(data) {
+
+                        if (!data) {
+                            return;
+                        }
+
+
+                        if (data.error) {
+
+                            alert(data.error);
+
+                            return;
+
+                        }
+
+
+                        const quantityElement =
+                            document.getElementById(
+                                "quantity-" + pid
+                            );
+
+
+                        const totalElement =
+                            document.getElementById(
+                                "item-total-" + pid
+                            );
+
+
+                        if (quantityElement) {
+
+                            quantityElement.innerText =
+                                data.quantity;
+
+                        }
+
+
+                        if (totalElement) {
+
+                            totalElement.innerText =
+                                parseFloat(
+                                    data.item_total
+                                ).toFixed(2);
+
+                        }
+
+
+                        calculateSelectedTotal();
+
+                    })
+
+
+                    .catch(function(error) {
+
+                        console.log(
+                            "Error:",
+                            error
+                        );
+
+                    });
+
+            }
+        );
+
+    });
+
+
+
+/* =========================================================
+   DECREASE QUANTITY
+========================================================= */
+
+document
+    .querySelectorAll(".decrease-btn")
+    .forEach(function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                const pid =
+                    button.getAttribute("data-id");
+
+
+                fetch(
+                    "/user/cart/decrease-ajax/" + pid
+                )
+
+                    .then(function(response) {
+
+                        if (response.status === 401) {
+
+                            window.location.href =
+                                "/user-login";
+
+                            return null;
+
+                        }
+
+                        return response.json();
+
+                    })
+
+
+                    .then(function(data) {
+
+                        if (!data) {
+                            return;
+                        }
+
+
+                        if (data.error) {
+
+                            alert(data.error);
+
+                            return;
+
+                        }
+
+
+                        /* Product removed */
+
+                        if (data.removed) {
+
+                            const row =
+                                document.getElementById(
+                                    "row-" + pid
+                                );
+
+
+                            if (row) {
+
+                                row.remove();
+
+                            }
+
+
+                            calculateSelectedTotal();
+
+                            return;
+
+                        }
+
+
+                        const quantityElement =
+                            document.getElementById(
+                                "quantity-" + pid
+                            );
+
+
+                        const totalElement =
+                            document.getElementById(
+                                "item-total-" + pid
+                            );
+
+
+                        if (quantityElement) {
+
+                            quantityElement.innerText =
+                                data.quantity;
+
+                        }
+
+
+                        if (totalElement) {
+
+                            totalElement.innerText =
+                                parseFloat(
+                                    data.item_total
+                                ).toFixed(2);
+
+                        }
+
+
+                        calculateSelectedTotal();
+
+                    })
+
+
+                    .catch(function(error) {
+
+                        console.log(
+                            "Error:",
+                            error
+                        );
+
+                    });
+
+            }
+        );
+
+    });
+
+
+
+/* =========================================================
+   INITIAL TOTAL
+========================================================= */
+
+calculateSelectedTotal();
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Login - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.admin-auth-wrapper {
+    max-width: 440px;
+    margin: 55px auto;
+}
+
+.admin-auth-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* Header */
+
+.admin-auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.admin-logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 18px;
+}
+
+.admin-auth-header h2 {
+    margin: 0;
+    color: #171717;
+    font-size: 24px;
+}
+
+.admin-auth-header p {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Flash Messages */
+
+.admin-alert {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    border-radius: 7px;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+
+/* Form */
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-form-group label {
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.admin-form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #171717;
+    background: #ffffff;
+    outline: none;
+    transition: 0.2s;
+}
+
+.admin-form-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.admin-form-group input::placeholder {
+    color: #9ca3af;
+}
+
+
+/* Login Button */
+
+.admin-submit-btn {
+    width: 100%;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: 0.2s;
+}
+
+.admin-submit-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+    .admin-auth-wrapper {
+        margin: 25px auto;
+    }
+
+    .admin-auth-card {
+        padding: 22px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="admin-auth-wrapper">
+
+    <div class="admin-auth-card">
+
+
+        <!-- Header -->
+
+        <div class="admin-auth-header">
+
+            <div class="admin-logo">
+                SmartCart
+            </div>
+
+            <h2>
+                Admin Login
+            </h2>
+
+            <p>
+                Sign in to access the administrator dashboard
+            </p>
+
+        </div>
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% for category, message in messages %}
+
+                <div class="admin-alert">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- Login Form -->
+
+        <form
+            method="POST"
+            action="/admin-login"
+            class="admin-form"
+        >
+
+
+            <!-- Email -->
+
+            <div class="admin-form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="admin-form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Login -->
+
+            <button
+                type="submit"
+                class="admin-submit-btn"
+            >
+                Login
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,404 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Profile - SmartCart{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.admin-profile-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+
+/* Header */
+
+.profile-header {
+    margin-bottom: 25px;
+}
+
+.profile-header h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #171717;
+}
+
+.profile-header p {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Profile Card */
+
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* Flash Message */
+
+.profile-alert {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    border-radius: 7px;
+    padding: 11px 14px;
+    margin-bottom: 22px;
+    font-size: 13px;
+}
+
+
+/* Profile Image */
+
+.profile-image-section {
+    text-align: center;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #e5e7eb;
+}
+
+.no-profile-image {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    border-radius: 50%;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* Form */
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 7px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #171717;
+    background: #ffffff;
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+
+/* File Input */
+
+.file-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #ffffff;
+    font-size: 13px;
+}
+
+
+/* Help Text */
+
+.form-help {
+    margin-top: 6px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+/* Update Button */
+
+.update-btn {
+    width: 100%;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: 0.2s;
+}
+
+.update-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* Back Link */
+
+.back-dashboard {
+    display: inline-block;
+    margin-top: 20px;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-dashboard:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .admin-profile-wrapper {
+        margin: 20px auto;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-header h2 {
+        font-size: 24px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="admin-profile-wrapper">
+
+
+    <!-- Header -->
+
+    <div class="profile-header">
+
+        <h2>
+            Admin Profile
+        </h2>
+
+        <p>
+            Manage your administrator account information.
+        </p>
+
+    </div>
+
+
+    <!-- Profile Card -->
+
+    <div class="profile-card">
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% for category, message in messages %}
+
+                <div class="profile-alert">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- Current Profile Image -->
+
+        <div class="profile-image-section">
+
+            {% if admin.profile_image %}
+
+                <img
+                    src="/static/uploads/admin_profiles/{{ admin.profile_image }}"
+                    class="profile-image"
+                    alt="Admin Profile"
+                >
+
+            {% else %}
+
+                <div class="no-profile-image">
+                    No Profile Image
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Profile Form -->
+
+        <form
+            method="POST"
+            action="/admin/profile"
+            enctype="multipart/form-data"
+            class="profile-form"
+        >
+
+
+            <!-- Name -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ admin.name }}"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ admin.email }}"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    New Password
+                    <span style="font-weight: 400; color: #9ca3af;">
+                        (Optional)
+                    </span>
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter a new password"
+                >
+
+                <span class="form-help">
+                    Leave blank if you do not want to change your password.
+                </span>
+
+            </div>
+
+
+            <!-- Profile Image -->
+
+            <div class="form-group">
+
+                <label for="profile_image">
+                    Upload New Profile Image
+                    <span style="font-weight: 400; color: #9ca3af;">
+                        (Optional)
+                    </span>
+                </label>
+
+                <input
+                    type="file"
+                    id="profile_image"
+                    name="profile_image"
+                    accept="image/*"
+                    class="file-input"
+                >
+
+            </div>
+
+
+            <!-- Update -->
+
+            <button
+                type="submit"
+                class="update-btn"
+            >
+                Update Profile
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+    <!-- Back -->
+
+    <a
+        href="/admin-dashboard"
+        class="back-dashboard"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+</div>
+
+{% endblock %}
