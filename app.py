@@ -1105,7 +1105,7 @@ def user_signup():
         "success"
     )
 
-    return redirect('/verify-otp')
+    return redirect('/user/verify-otp')
 
 
 # =========================================================
