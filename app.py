@@ -396,11 +396,14 @@ def admin_logout():
 # IMAGE UPLOAD PATHS
 # =========================================================
 
-UPLOAD_FOLDER = 'static/uploads/product_images'
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads', 'product_images')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-ADMIN_UPLOAD_FOLDER = 'static/uploads/admin_profiles'
+ADMIN_UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads', 'admin_profiles')
 app.config['ADMIN_UPLOAD_FOLDER'] = ADMIN_UPLOAD_FOLDER
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(ADMIN_UPLOAD_FOLDER, exist_ok=True)
 
 
 # =========================================================
