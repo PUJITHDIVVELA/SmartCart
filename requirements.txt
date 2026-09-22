@@ -1,0 +1,6 @@
+Flask
+Flask-Mail
+bcrypt
+razorpay
+xhtml2pdf
+gunicorn
