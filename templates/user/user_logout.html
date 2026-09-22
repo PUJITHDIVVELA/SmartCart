@@ -1,28 +1,122 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Logout</title>
-</head>
+{% block title %}
+    Logged Out | SmartCart
+{% endblock %}
 
-<body>
+{% block content %}
+<div class="logout-page">
+    <div class="logout-card">
+        <div class="logout-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </div>
 
-    <h2>Logged Out Successfully!</h2>
+        <h2>Logged Out Successfully</h2>
+        <p>You have been safely logged out from your SmartCart account. Thank you for shopping with us!</p>
 
-    <p>
-        You have successfully logged out from SmartCart.
-    </p>
+        <div class="logout-actions">
+            <a href="/user-login" class="btn btn-primary">
+                Login Again
+            </a>
+            <a href="/user-signup" class="btn btn-secondary">
+                Create Account
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-    <a href="/user-login">
-        Login Again
-    </a>
+{% block extra_css %}
+<style>
+    .logout-page {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
 
-    <br><br>
+    .logout-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 40px;
+        max-width: 480px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
 
-    <a href="/user-signup">
-        Register
-    </a>
+    .logout-icon {
+        width: 80px;
+        height: 80px;
+        background: #eff6ff;
+        color: #2563eb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+    }
 
-</body>
+    .logout-card h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 12px;
+    }
 
-</html>
+    .logout-card p {
+        font-size: 15px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .logout-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .logout-actions .btn {
+        flex: 1;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-secondary {
+        background: #f3f4f6;
+        color: #374151;
+        border: 1px solid #d1d5db;
+    }
+
+    .btn-secondary:hover {
+        background: #e5e7eb;
+    }
+
+    @media (max-width: 480px) {
+        .logout-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,44 +1,208 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Product</title>
-</head>
-<body>
+{% extends "admin_base.html" %}
 
-<h2>Update Product</h2>
+{% block title %}
+    Update Product | SmartCart Admin
+{% endblock %}
 
-<!-- Flash Messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% for category, message in messages %}
-    <p style="color:green;">{{ message }}</p>
-  {% endfor %}
-{% endwith %}
+{% block content %}
+<div class="update-product-page">
+    <div class="page-header">
+        <h2>Update Product</h2>
+        <a href="/admin/item-list" class="btn btn-outline">
+            ← Back to Product List
+        </a>
+    </div>
 
-<form method="POST" action="/admin/update-item/{{ product.product_id }}" enctype="multipart/form-data">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category if category != 'message' else 'info' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-    <label>Product Name:</label><br>
-    <input type="text" name="name" value="{{ product.name }}" required><br><br>
+    <div class="form-card">
+        <form method="POST" action="/admin/update-item/{{ product.product_id }}" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">Product Name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{ product.name }}" required>
+                </div>
 
-    <label>Description:</label><br>
-    <textarea name="description" required>{{ product.description }}</textarea><br><br>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" id="category" name="category" class="form-control" value="{{ product.category }}" required>
+                </div>
 
-    <label>Category:</label><br>
-    <input type="text" name="category" value="{{ product.category }}" required><br><br>
+                <div class="form-group">
+                    <label for="price">Price (₹)</label>
+                    <input type="number" id="price" step="0.01" name="price" class="form-control" value="{{ product.price }}" required>
+                </div>
 
-    <label>Price:</label><br>
-    <input type="number" step="0.01" name="price" value="{{ product.price }}" required><br><br>
+                <div class="form-group full-width">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="4" required>{{ product.description }}</textarea>
+                </div>
 
-    <label>Old Image:</label><br>
-    <img src="/static/uploads/product_images/{{ product.image }}" width="120"><br><br>
+                <div class="form-group full-width image-section">
+                    <label>Current Product Image</label>
+                    <div class="current-image-preview">
+                        <img src="/static/uploads/product_images/{{ product.image }}" alt="{{ product.name }}">
+                    </div>
+                </div>
 
-    <label>Choose New Image (Optional):</label><br>
-    <input type="file" name="image" accept="image/*"><br><br>
+                <div class="form-group full-width">
+                    <label for="image">Replace Product Image (Optional)</label>
+                    <input type="file" id="image" name="image" class="form-control-file" accept="image/*">
+                </div>
+            </div>
 
-    <button type="submit">Update Product</button>
-</form>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Update Product Details
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
 
-<br>
-<a href="/admin/item-list">Back to Product List</a>
+{% block extra_css %}
+<style>
+    .update-product-page {
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
-</body>
-</html>
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+    }
+
+    .page-header h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .btn-outline {
+        padding: 8px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        color: #374151;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+        background: #f3f4f6;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+    .current-image-preview {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .current-image-preview img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .form-control-file {
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .form-actions {
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid #f3f4f6;
+        text-align: right;
+    }
+
+    .btn-primary {
+        padding: 12px 24px;
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+    @media (max-width: 640px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full-width {
+            grid-column: span 1;
+        }
+    }
+</style>
+{% endblock %}
