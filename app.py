@@ -247,7 +247,7 @@ def verify_otp_post():
     hashed_password = bcrypt.hashpw(
         password.encode('utf-8'),
         bcrypt.gensalt()
-    )
+    ).decode('utf-8')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -323,9 +323,8 @@ def admin_login():
 
         return redirect('/admin-login')
 
-    stored_hashed_password = (
-        admin['password'].encode('utf-8')
-    )
+    stored = admin['password']
+    stored_hashed_password = stored.encode('utf-8') if isinstance(stored, str) else stored
 
     if not bcrypt.checkpw(
         password.encode('utf-8'),
@@ -965,7 +964,7 @@ def admin_profile_update():
         hashed_password = bcrypt.hashpw(
             new_password.encode('utf-8'),
             bcrypt.gensalt()
-        )
+        ).decode('utf-8')
 
     else:
 
@@ -1149,7 +1148,7 @@ def verify_user_otp_post():
     hashed_password = bcrypt.hashpw(
         password.encode('utf-8'),
         bcrypt.gensalt()
-    )
+    ).decode('utf-8')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -1226,9 +1225,8 @@ def user_login():
 
         return redirect('/user-login')
 
-    stored_hashed_password = (
-        user['password'].encode('utf-8')
-    )
+    stored = user['password']
+    stored_hashed_password = stored.encode('utf-8') if isinstance(stored, str) else stored
 
     if not bcrypt.checkpw(
         password.encode('utf-8'),
