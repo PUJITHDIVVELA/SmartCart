@@ -1,10 +1,10 @@
 SECRET_KEY = "asdfghjkl"   
 
 
-DB_HOST = "localhost"
-DB_USER = "root"
-DB_PASSWORD = "Abhi@123"  
-DB_NAME = "smartcart"
+import os
+
+DB_NAME = "smartcart.db"
+DB_PATH = os.path.join(os.path.dirname(__file__), DB_NAME)
 
 
 MAIL_SERVER = 'smtp.gmail.com'
