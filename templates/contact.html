@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Contact Us | SmartCart
+{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    <div class="contact-header">
+        <h1>Contact SmartCart Support</h1>
+        <p>Have questions about your order, products, or feedback? Get in touch with us below!</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category if category != 'message' else 'info' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="contact-grid">
+        <!-- Contact Information Cards -->
+        <div class="info-sidebar">
+            <div class="info-card">
+                <div class="info-icon">📧</div>
+                <div>
+                    <h4>Email Support</h4>
+                    <p>support@smartcart.com</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">📞</div>
+                <div>
+                    <h4>Customer Care</h4>
+                    <p>+91 (800) 123-4567</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">📍</div>
+                <div>
+                    <h4>Office Address</h4>
+                    <p>SmartCart Headquarters, Tech City, India</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">⏰</div>
+                <div>
+                    <h4>Working Hours</h4>
+                    <p>Mon - Sat: 9:00 AM - 8:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-card">
+            <h3>Send us a Message</h3>
+            <form method="POST" action="/contact">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" class="form-control" placeholder="What is this regarding?" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" class="form-control" rows="5" placeholder="Write your query or feedback here..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px 0 40px;
+    }
+
+    .contact-header {
+        text-align: center;
+        margin-bottom: 36px;
+    }
+
+    .contact-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .contact-header p {
+        font-size: 15px;
+        color: #6b7280;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.6fr;
+        gap: 30px;
+    }
+
+    .info-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .info-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .info-icon {
+        font-size: 24px;
+        width: 48px;
+        height: 48px;
+        background: #eff6ff;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .info-card h4 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 2px;
+    }
+
+    .info-card p {
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .contact-form-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .contact-form-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+    @media (max-width: 768px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

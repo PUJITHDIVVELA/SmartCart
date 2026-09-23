@@ -724,6 +724,49 @@
 
 </nav>
 
+{% else %}
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <!-- Brand -->
+        <a href="/user-login" class="brand">
+            Smart<span>Cart</span>
+        </a>
+
+        <!-- Mobile Hamburger Toggle Button (3 lines) -->
+        <button class="nav-toggle" id="userNavToggle" aria-label="Toggle navigation">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="nav-links" id="userNavLinks">
+
+            <a href="/user-login">
+                Home
+            </a>
+
+            <a href="/about">
+                About Us
+            </a>
+
+            <a href="/contact">
+                Contact Us
+            </a>
+
+            <a href="/admin-login" class="nav-button">
+                Admin Login
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
 {% endif %}
 
 

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}
+    About Us | SmartCart
+{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <!-- Hero Section -->
+    <div class="about-hero">
+        <div class="hero-content">
+            <span class="hero-tag">Welcome to SmartCart</span>
+            <h1>Your Premier Destination for Smart Shopping</h1>
+            <p>SmartCart is an innovative e-commerce platform designed to bring you high-quality products, seamless online ordering, secure payments, and fast delivery right to your doorstep.</p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🛍️</div>
+            <h3>Curated Selection</h3>
+            <p>We source top-rated electronics, fashion, home essentials, and gadgets to ensure quality in every order.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure Transactions</h3>
+            <p>Integrated with Razorpay to provide 100% safe, encrypted payment processing for complete peace of mind.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast & Reliable Shipping</h3>
+            <p>Real-time order tracking and express fulfillment ensure your packages arrive on time, every time.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💬</div>
+            <h3>24/7 Dedicated Support</h3>
+            <p>Our support team is always available to help you with order inquiries, product details, and returns.</p>
+        </div>
+    </div>
+
+    <!-- Mission Card -->
+    <div class="mission-card">
+        <h2>Our Mission</h2>
+        <p>At SmartCart, our goal is to empower customers with a smooth, reliable, and delightful online shopping experience built on modern web technology, security, and exceptional service.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px 0 40px;
+    }
+
+    .about-hero {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        color: #ffffff;
+        border-radius: 20px;
+        padding: 50px 40px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+    }
+
+    .hero-tag {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 16px;
+    }
+
+    .about-hero h1 {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 16px;
+        line-height: 1.25;
+    }
+
+    .about-hero p {
+        font-size: 16px;
+        color: #e0e7ff;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    .feature-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 28px 24px;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.06);
+    }
+
+    .feature-icon {
+        font-size: 36px;
+        margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.55;
+    }
+
+    .mission-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 36px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .mission-card h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 12px;
+    }
+
+    .mission-card p {
+        font-size: 15px;
+        color: #4b5563;
+        line-height: 1.65;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 640px) {
+        .about-hero {
+            padding: 34px 20px;
+        }
+
+        .about-hero h1 {
+            font-size: 24px;
+        }
+    }
+</style>
+{% endblock %}

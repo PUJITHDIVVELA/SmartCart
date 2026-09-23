@@ -141,7 +141,24 @@ def save_user_cart(user_id, cart):
 @app.route('/')
 def home():
 
-    return redirect('/admin-signup')
+    return redirect('/user-login')
+
+
+# =========================================================
+# PUBLIC ABOUT & CONTACT ROUTES
+# =========================================================
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        flash('Thank you for contacting SmartCart! We will get back to you shortly.', 'success')
+        return redirect('/contact')
+    return render_template('contact.html')
 
 
 # =========================================================
