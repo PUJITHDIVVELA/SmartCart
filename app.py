@@ -3301,9 +3301,12 @@ def user_logout():
     )
 
 
-    return render_template(
-        "user/user_logout.html"
+    flash(
+        "Logged out successfully.",
+        "success"
     )
+
+    return redirect('/user-login')
 
 
 if __name__ == '__main__':
