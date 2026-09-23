@@ -98,6 +98,7 @@
             justify-content: space-between;
 
             gap: 30px;
+            position: relative;
         }
 
 
@@ -106,6 +107,7 @@
             font-weight: 700;
             color: #222;
             letter-spacing: -0.4px;
+            text-decoration: none;
         }
 
 
@@ -126,6 +128,7 @@
 
             font-size: 14px;
             color: #555;
+            text-decoration: none;
 
             border-radius: 7px;
 
@@ -150,6 +153,76 @@
         .nav-links .nav-button:hover {
             background: #1d4ed8;
             color: white;
+        }
+
+
+        /* Hamburger Toggle Button (3 lines) */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger-bar {
+            width: 100%;
+            height: 3px;
+            background-color: #374151;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                padding: 16px;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                gap: 8px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 12px 16px;
+                font-size: 15px;
+                text-align: left;
+            }
+
+            .nav-links .nav-button {
+                text-align: center;
+                margin-top: 4px;
+            }
+
+            /* Hamburger to X Animation */
+            .nav-toggle.active .hamburger-bar:nth-child(1) {
+                transform: translateY(8.5px) rotate(45deg);
+            }
+            .nav-toggle.active .hamburger-bar:nth-child(2) {
+                opacity: 0;
+            }
+            .nav-toggle.active .hamburger-bar:nth-child(3) {
+                transform: translateY(-8.5px) rotate(-45deg);
+            }
         }
 
 
@@ -619,8 +692,15 @@
             Smart<span>Cart</span>
         </a>
 
+        <!-- Mobile Hamburger Toggle Button (3 lines) -->
+        <button class="nav-toggle" id="userNavToggle" aria-label="Toggle navigation">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+        </button>
+
         <!-- Navigation Links -->
-        <div class="nav-links">
+        <div class="nav-links" id="userNavLinks">
 
             <a href="/user/products">
                 Products
@@ -633,7 +713,6 @@
             <a href="/user/my-orders">
                 My Orders
             </a>
-
 
             <a href="/user-logout" class="nav-button">
                 Logout
@@ -687,6 +766,27 @@
 
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userNavToggle = document.getElementById('userNavToggle');
+            const userNavLinks = document.getElementById('userNavLinks');
+
+            if (userNavToggle && userNavLinks) {
+                userNavToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userNavToggle.classList.toggle('active');
+                    userNavLinks.classList.toggle('active');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!userNavToggle.contains(e.target) && !userNavLinks.contains(e.target)) {
+                        userNavToggle.classList.remove('active');
+                        userNavLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 
     {% block extra_js %}
     {% endblock %}
